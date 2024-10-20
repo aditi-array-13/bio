@@ -1,0 +1,61 @@
+# Import necessary libraries
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+
+# Load the dataset (replace 'your_dataset.csv' with the actual dataset file name)
+data = pd.read_csv("heart.csv")
+
+# Split the data into features (X) and the target variable (y)
+X = data.drop("target", axis=1)  # Features
+y = data["target"]  # Target variable
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize the Random Forest Classifier
+clf = RandomForestClassifier(n_estimators=100, random_state=0)
+
+# Train the model
+clf.fit(X_train, y_train)
+
+# Make predictions on the test set
+y_pred = clf.predict(X_test)
+
+# Evaluate the model's performance
+accuracy = accuracy_score(y_test, y_pred)
+report = classification_report(y_test, y_pred)
+
+# Output the evaluation metrics
+print(f"Accuracy: {accuracy:.2f}")
+print("Classification Report:\n", report)
+
+# Import necessary libraries for SVM
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report
+
+# Initialize the Support Vector Classifier (SVC)
+svm_clf = SVC(kernel='linear', random_state=0)
+
+# Train the SVM model
+svm_clf.fit(X_train, y_train)
+
+# Make predictions on the test set using the SVM model
+y_pred_svm = svm_clf.predict(X_test)
+
+# Evaluate the SVM model's performance
+accuracy_svm = accuracy_score(y_test, y_pred_svm)
+report_svm = classification_report(y_test, y_pred_svm)
+
+# Output the evaluation metrics for the SVM model
+print(f"SVM Accuracy: {accuracy_svm:.2f}")
+print("SVM Classification Report:\n", report_svm)
+
+# Compare Random Forest and SVM
+print(f"Random Forest Accuracy: {accuracy:.2f}")
+print("Random Forest Classification Report:\n", report)
+
+# Compare accuracies
+print(f"Accuracy Comparison: Random Forest = {accuracy:.2f}, SVM = {accuracy_svm:.2f}")
